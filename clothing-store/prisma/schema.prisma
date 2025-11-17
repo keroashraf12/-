@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Supplier {
+  id            String    @id @default(uuid())
+  name          String
+  phone         String
+  email         String?
+  address       String?
+  balance       Float     @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  purchases     Purchase[]
+  payments      Payment[]
+}
+
+model Customer {
+  id            String    @id @default(uuid())
+  name          String
+  phone         String
+  email         String?
+  address       String?
+  balance       Float     @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  sales         Sale[]
+  payments      Payment[]
+}
+
+model Product {
+  id            String    @id @default(uuid())
+  name          String
+  sku           String    @unique
+  description   String?
+  category      String
+  size          String?
+  color         String?
+  costPrice     Float
+  sellingPrice  Float
+  quantity      Int       @default(0)
+  minQuantity   Int       @default(10)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  purchaseItems PurchaseItem[]
+  saleItems     SaleItem[]
+}
+
+model Purchase {
+  id            String    @id @default(uuid())
+  invoiceNumber String    @unique
+  supplierId    String
+  supplier      Supplier  @relation(fields: [supplierId], references: [id])
+  date          DateTime  @default(now())
+  totalAmount   Float
+  paidAmount    Float     @default(0)
+  status        String    @default("pending")
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  items         PurchaseItem[]
+}
+
+model PurchaseItem {
+  id            String    @id @default(uuid())
+  purchaseId    String
+  purchase      Purchase  @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id])
+  quantity      Int
+  unitPrice     Float
+  totalPrice    Float
+  createdAt     DateTime  @default(now())
+}
+
+model Sale {
+  id            String    @id @default(uuid())
+  invoiceNumber String    @unique
+  customerId    String
+  customer      Customer  @relation(fields: [customerId], references: [id])
+  date          DateTime  @default(now())
+  totalAmount   Float
+  paidAmount    Float     @default(0)
+  status        String    @default("pending")
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  items         SaleItem[]
+}
+
+model SaleItem {
+  id            String    @id @default(uuid())
+  saleId        String
+  sale          Sale      @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product   @relation(fields: [productId], references: [id])
+  quantity      Int
+  unitPrice     Float
+  totalPrice    Float
+  createdAt     DateTime  @default(now())
+}
+
+model Payment {
+  id            String    @id @default(uuid())
+  type          String
+  amount        Float
+  date          DateTime  @default(now())
+  method        String
+  notes         String?
+  supplierId    String?
+  supplier      Supplier? @relation(fields: [supplierId], references: [id])
+  customerId    String?
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  createdAt     DateTime  @default(now())
+}
