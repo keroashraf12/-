@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض تقديمي - تطبيق أندرويد احترافي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #764ba2;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.3em;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+        }
+
+        .timeline {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            text-align: right;
+        }
+
+        .timeline-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-left: 20px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-content h3 {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            text-align: right;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .tech-item {
+            text-align: center;
+        }
+
+        .tech-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .list-item {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-right: 5px solid #667eea;
+            text-align: right;
+        }
+
+        .emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            width: 100%;
+        }
+
+        li {
+            font-size: 1.2em;
+            color: #555;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: right;
+        }
+
+        li::before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+    </div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="emoji">📱</div>
+            <h1>تطبيق أندرويد احترافي</h1>
+            <p class="subtitle">عرض تقديمي شامل لتطوير تطبيق موبايل متكامل</p>
+            <p style="margin-top: 40px; color: #888;">اضغط على الأسهم للتنقل بين الشرائح</p>
+        </div>
+
+        <!-- Slide 2: Overview -->
+        <div class="slide">
+            <h2>نظرة عامة على المشروع</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🎯 الهدف</h3>
+                    <p>تطوير تطبيق أندرويد حديث وسهل الاستخدام يلبي احتياجات المستخدمين</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 الجمهور المستهدف</h3>
+                    <p>مستخدمو الهواتف الذكية من جميع الفئات العمرية</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ المميزات</h3>
+                    <p>واجهة عصرية، أداء عالي، وتجربة مستخدم متميزة</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 الابتكار</h3>
+                    <p>استخدام أحدث التقنيات والممارسات في تطوير التطبيقات</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Features -->
+        <div class="slide">
+            <h2>المميزات الرئيسية</h2>
+            <ul>
+                <li>واجهة مستخدم عصرية وجذابة باستخدام Material Design</li>
+                <li>أداء سريع وسلس مع استهلاك منخفض للبطارية</li>
+                <li>دعم اللغة العربية بشكل كامل</li>
+                <li>نظام إشعارات ذكي ومخصص</li>
+                <li>التكامل مع خدمات Google Play</li>
+                <li>وضع الاستخدام دون اتصال بالإنترنت</li>
+                <li>حماية وأمان البيانات</li>
+                <li>تحديثات منتظمة ودعم فني مستمر</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Tech Stack -->
+        <div class="slide">
+            <h2>التقنيات المستخدمة</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">K</div>
+                    <h3>Kotlin</h3>
+                    <p>لغة البرمجة الأساسية</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🎨</div>
+                    <h3>Jetpack Compose</h3>
+                    <p>بناء الواجهات</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🗄️</div>
+                    <h3>Room Database</h3>
+                    <p>قاعدة البيانات المحلية</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔄</div>
+                    <h3>Retrofit</h3>
+                    <p>الاتصال بالخوادم</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Timeline -->
+        <div class="slide">
+            <h2>خطة التنفيذ</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>المرحلة الأولى: التخطيط والتصميم</h3>
+                        <p>تحديد المتطلبات، تصميم الواجهات، وإعداد البنية التحتية (أسبوعان)</p>
+                    </div>
+                    <div class="timeline-number">1</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>المرحلة الثانية: التطوير الأساسي</h3>
+                        <p>بناء الوظائف الرئيسية والواجهات الأساسية (4 أسابيع)</p>
+                    </div>
+                    <div class="timeline-number">2</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>المرحلة الثالثة: الاختبار والتحسين</h3>
+                        <p>اختبار شامل، إصلاح الأخطاء، وتحسين الأداء (أسبوعان)</p>
+                    </div>
+                    <div class="timeline-number">3</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>المرحلة الرابعة: الإطلاق</h3>
+                        <p>نشر التطبيق على Google Play Store ومتابعة الأداء (أسبوع)</p>
+                    </div>
+                    <div class="timeline-number">4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Architecture -->
+        <div class="slide">
+            <h2>البنية المعمارية</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>📐 MVVM Pattern</h3>
+                    <p>نمط معماري حديث يفصل المنطق عن الواجهة</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔧 Clean Architecture</h3>
+                    <p>بنية نظيفة وقابلة للصيانة والتوسع</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💉 Dependency Injection</h3>
+                    <p>استخدام Hilt لإدارة التبعيات</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧪 Testing</h3>
+                    <p>اختبارات شاملة للوحدات والتكامل</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Security & Performance -->
+        <div class="slide">
+            <h2>الأمان والأداء</h2>
+            <div class="list-item">
+                <h3>🔒 الأمان</h3>
+                <p>تشفير البيانات الحساسة، مصادقة آمنة، وحماية من الثغرات الأمنية</p>
+            </div>
+            <div class="list-item">
+                <h3>⚡ الأداء</h3>
+                <p>تحميل سريع، استجابة فورية، وإدارة ذكية للذاكرة</p>
+            </div>
+            <div class="list-item">
+                <h3>🔋 البطارية</h3>
+                <p>تحسين استهلاك الطاقة وإدارة العمليات في الخلفية</p>
+            </div>
+            <div class="list-item">
+                <h3>📊 التحليلات</h3>
+                <p>تتبع الأداء وسلوك المستخدمين لتحسين التجربة</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Conclusion -->
+        <div class="slide">
+            <div class="emoji">🎉</div>
+            <h2>شكراً لاهتمامكم</h2>
+            <p style="font-size: 1.5em; margin-top: 30px;">نحن جاهزون لبدء تطوير تطبيق أندرويد احترافي</p>
+            <div style="margin-top: 50px;">
+                <p style="color: #667eea; font-weight: bold;">للتواصل والاستفسارات</p>
+                <p>📧 info@example.com</p>
+                <p>📱 +966 XX XXX XXXX</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← السابق</button>
+        <button class="nav-btn" onclick="nextSlide()">التالي →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousSlide();
+            }
+        }
+    </script>
+</body>
+</html>
